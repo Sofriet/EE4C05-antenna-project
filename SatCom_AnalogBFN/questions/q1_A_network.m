@@ -56,7 +56,7 @@ function Q1 = q1_A_network(cfg)
     % ---- figure: A-beam (port 5) pattern ---------------------------------
     st  = cfg.style;
     fig = new_figure(cfg, 'Q1 - port 5 beam pattern', 900, 420);
-    ax  = axes('Parent', fig); hold(ax, 'on');
+    ax  = sub_axes(fig, 1, 1, 1, [0.95 0.3 0.75 0.5 0 0]); hold(ax, 'on');   % fixed margins [inch]
     yl  = [-30 10];
     e = 0.004 * [180 diff(yl)];            % keep the box lines visible around the band
     patch(ax, [0 90-e(1) 90-e(1) 0], [yl(1)+e(2) yl(1)+e(2) yl(2)-e(2) yl(2)-e(2)], st.shade, ...
@@ -75,7 +75,7 @@ function Q1 = q1_A_network(cfg)
              'Color', st.ink2, 'FontSize', st.fs - 1);
     end
     plot(ax, cfg.thetaPattern, max(Q1.pattern5, yl(1) - 10), 'Color', st.A, 'LineWidth', st.lw);
-    plot(ax, cfg.thetaA, Q1.G_A5, 'o', 'MarkerSize', 8, ...
+    plot(ax, cfg.thetaA, Q1.G_A5, 'o', 'MarkerSize', 10, ...
          'MarkerFaceColor', st.A, 'MarkerEdgeColor', 'w', 'LineWidth', 1.5);
     text(ax, cfg.thetaA, Q1.G_A5 + 1.2, sprintf('%.2f dBi at \\theta_A', Q1.G_A5), ...
          'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom', ...

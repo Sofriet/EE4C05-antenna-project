@@ -24,7 +24,8 @@ SatCom_AnalogBFN/
 │   ├── q2_gain_port5.m     gain of A and B at port 5 vs thetaB           (A2)
 │   ├── q3_B_network.m      phi4, phi5, VRC coupling ratio vs thetaB      (A3)
 │   ├── q4_gain_port6.m     gain of B at port 6 vs thetaB (+ patterns)     (A4)
-│   └── q5_two_bit.m        2-bit phase shifters: change of Q4 (+ backup)  (A5)
+│   ├── q5_two_bit.m        2-bit phase shifters: change of Q4 (+ backup)  (A5)
+│   └── results_overview.m  Q2, Q4 and Q5 merged in one figure (slides)
 ├── src/
 │   ├── components/         directional_coupler, hybrid_3dB, phase_shifter
 │   ├── array/              incident_wave (plane wave at the 4 elements)
@@ -126,6 +127,7 @@ With ψ = k d sin θ and Δ = ψB − ψA:
 | A3 unknowns | `Q3_B_network_unknowns_vs_thetaB.png` | `Q3_B_network_vs_thetaB.csv` |
 | A4 port 6 | `Q4_gain_port6_vs_thetaB.png`, `Q4b_port6_beam_patterns.png` | `Q4_gain_port6.csv` |
 | A5 2-bit | `Q5_2bit_gain_port6.png`, `Q5b_breakdown.png`, `Q5c_phase_resolution_sweep.png` | `Q5_2bit_results.csv`, `Q5_2bit_A_network.csv`, `Q5_resolution_sweep.csv` |
+| A2 + A4 + A5 merged | `Q2_Q4_Q5_overview.png` | |
 
 ## Link to Q6/Q7
 

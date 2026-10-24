@@ -4,7 +4,7 @@ function Q3 = q3_B_network(cfg, Q1)
 %   Deliverable A3 ("determine and plot the unknowns vs thetaB").
 %   Algorithm: design_B_network.m (stage-wise co-phasing + maximal-ratio
 %   combining on the A-free outputs). Cross-checked with closed_form_design.m.
-%   Draws results/figures/Q3_B_network_unknowns_vs_thetaB.png.
+%   Draws results/figures/Q3_B_network_unknowns_vs_thetaB.png (one panel per unknown).
 
     fprintf('\n=== Q3  B network (red): phi4, phi5 and VRC ratio versus thetaB ===\n');
     B  = design_B_network(cfg, Q1.A.settings);
@@ -42,13 +42,14 @@ function Q3 = q3_B_network(cfg, Q1)
               [B.thetaB(:), B.phi4(:), B.phi5(:), B.kappa(:), B.C(:), ...
                10*log10(B.C(:)), 10*log10(1 - B.C(:))], '%.6f');
 
-    % ---- figure: three stacked panels sharing thetaB ------------------------
+    % ---- figure: the three unknowns side by side -----------------------------
     st  = cfg.style;
-    fig = new_figure(cfg, 'Q3 - B network unknowns', 900, 760);
-    names = {'\phi_4 (deg)', '\phi_5 (deg)', 'VRC coupling C (%)'};
+    fig = new_figure(cfg, 'Q3 - B network unknowns', 1129, 317);
+    ylab  = {'\phi_4 (deg)', '\phi_5 (deg)', 'VRC coupling C (%)'};
+    ttl   = {'\phi_4: H4 in phase', '\phi_5: VRC inputs in phase', 'C = sin^2\kappa: no B in the loads'};
     data  = {B.phi4, B.phi5, 100*B.C};
     for k = 1:3
-        ax = sub_axes(fig, 3, 1, k); hold(ax, 'on');
+        ax = sub_axes(fig, 1, 3, k, [0.95 0.2 0.75 0.45 0.95 0]); hold(ax, 'on');
         if k < 3
             [xb, yb] = break_wraps(B.thetaB, data{k});
             set(ax, 'YLim', [0 360], 'YTick', 0:90:360);
@@ -56,7 +57,7 @@ function Q3 = q3_B_network(cfg, Q1)
             xb = B.thetaB; yb = data{k};
             set(ax, 'YLim', [0 100], 'YTick', 0:25:100);
         end
-        set(ax, 'XLim', [0 90], 'XTick', 0:10:90);
+        set(ax, 'XLim', [0 90], 'XTick', 0:15:90);
         if k == 3
             plot(ax, [0 90], [50 50], '--', 'Color', st.ref, 'LineWidth', st.lwRef);
             text(ax, 89, 50, '3-dB coupler', 'HorizontalAlignment', 'right', ...
@@ -64,18 +65,11 @@ function Q3 = q3_B_network(cfg, Q1)
         end
         plot(ax, xb, yb, 'Color', st.B, 'LineWidth', st.lw);
         vguide(ax, cfg.thetaA, '', cfg);
-        if k == 1
-            style_axes(ax, cfg, '', names{k}, ['B network settings versus \theta_B, ' thetaA_tag(cfg)]);
+        style_axes(ax, cfg, '\theta_B (deg)', ylab{k}, ttl{k});
+        if k == 2                          % where the settings are undefined (B identical to A)
             yl = get(ax, 'YLim');
-            text(ax, cfg.thetaA, yl(2), '  \theta_B = \theta_A (undefined)', 'VerticalAlignment', 'top', ...
-                 'Color', st.ink2, 'FontSize', st.fs - 1);
-        elseif k == 2
-            style_axes(ax, cfg, '', names{k});
-        else
-            style_axes(ax, cfg, '\theta_B (deg)', names{k});
-        end
-        if k < 3
-            set(ax, 'XTickLabel', {});
+            text(ax, cfg.thetaA, yl(2) - 0.03*diff(yl), ['  ' thetaA_tag(cfg) ' (undefined)'], ...
+                 'VerticalAlignment', 'top', 'Color', st.ink2, 'FontSize', st.fs - 1);
         end
     end
     save_figure(cfg, fig, 'Q3_B_network_unknowns_vs_thetaB');

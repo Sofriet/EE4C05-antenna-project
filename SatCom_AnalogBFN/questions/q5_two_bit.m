@@ -305,9 +305,10 @@ function plot_q5(cfg, Q4, Q5)
     busy = [cfg.thetaA - 1, cfg.thetaA + 14];           % the thetaA label at the bottom
     corners = {'southeast', [55 90]; 'southwest', [0 35]};
 
-    % ---- main figure: gains at port 6 + change, both designs -----------------
-    fig = new_figure(cfg, 'Q5 - 2-bit phase shifters', 900, 760);
-    ax  = sub_axes(fig, 2, 1, 1); hold(ax, 'on');
+    % ---- main figure: gains at port 6 (left) + change versus ideal (right) ---
+    fig = new_figure(cfg, 'Q5 - 2-bit phase shifters', 1129, 374);
+    mg  = [0.95 0.2 0.75 0.45 1.0 0];                   % margins [inch], see sub_axes
+    ax  = sub_axes(fig, 1, 2, 1, mg); hold(ax, 'on');
     yl  = [-40 10];  lo = yl(1) - 10;  hi = yl(2) + 10;
     set(ax, 'XLim', [0 90], 'YLim', yl, 'XTick', 0:10:90, 'YTick', -40:10:10);
     h1 = plot(ax, thB, clip_for_plot(Q4.G_B6, lo, hi), 'Color', st.ref, 'LineWidth', st.lwRef);
@@ -315,13 +316,13 @@ function plot_q5(cfg, Q4, Q5)
     h4 = plot(ax, thB, clip_for_plot(Q5.G_A6, lo, hi), 'Color', st.A, 'LineWidth', st.lw);
     h2 = plot(ax, thB, clip_for_plot(kn.G_B6, lo, hi), 'Color', st.B, 'LineWidth', st.lw);
     vguide(ax, cfg.thetaA, '\theta_B = \theta_A', cfg, 'bottom');
-    style_axes(ax, cfg, '', 'Gain at port 6 (dBi)', ...
-               [tag ' phase shifters (0/90/180/270^{\circ}), ' thetaA_tag(cfg)]);
-    legend(ax, [h2 h3 h4 h1], {'B, null on A kept (A: -\infty)', 'B, maximise B', ...
-           'A, maximise B (leakage)', 'B, ideal shifters (Q4)'}, ...
+    style_axes(ax, cfg, '\theta_B (deg)', 'Gain at port 6 (dBi)', ...
+               [tag ' shifters (0/90/180/270^{\circ}), ' thetaA_tag(cfg)]);
+    legend(ax, [h2 h3 h4 h1], {'B, null kept (A: -\infty)', 'B, maximise B', ...
+           'A, maximise B (leak)', 'B, ideal (Q4)'}, ...
            'Location', free_corner(busy, corners, 'eastoutside'), 'Box', 'off');
 
-    ax  = sub_axes(fig, 2, 1, 2); hold(ax, 'on');
+    ax  = sub_axes(fig, 1, 2, 2, mg); hold(ax, 'on');
     yl  = [-6 8];  lo = yl(1) - 5;  hi = yl(2) + 5;
     set(ax, 'XLim', [0 90], 'YLim', yl, 'XTick', 0:10:90, 'YTick', -6:2:8);
     plot(ax, [0 90], [0 0], '-', 'Color', st.ink2, 'LineWidth', 0.8);
@@ -336,7 +337,7 @@ function plot_q5(cfg, Q4, Q5)
     text(ax, xl, yl(2) - 0.5, 'maximise B: +\infty at \theta_B = \theta_A', ...
          'HorizontalAlignment', ha, 'VerticalAlignment', 'top', 'Color', st.ink2, 'FontSize', st.fs - 1);
     style_axes(ax, cfg, '\theta_B (deg)', '\DeltaG_{B,6} (dB)', ...
-               ['Change of B gain at port 6: ' tag ' minus ideal']);
+               ['Change of B at port 6: ' tag ' minus ideal']);
     % top corners: both changes stay well below +4 dB away from thetaA
     legend(ax, [g2 g3], {'null on A kept', 'maximise B'}, ...
            'Location', free_corner(txt, {'northeast', [65 90]; 'northwest', [0 25]}, 'eastoutside'), ...
@@ -344,8 +345,8 @@ function plot_q5(cfg, Q4, Q5)
     save_figure(cfg, fig, sprintf('Q5_%dbit_gain_port6', Q5.nBits));
 
     % ---- backup: breakdown of design 2 ---------------------------------------
-    fig = new_figure(cfg, 'Q5b - breakdown', 900, 500);
-    ax  = axes('Parent', fig); hold(ax, 'on');
+    fig = new_figure(cfg, 'Q5b - breakdown', 787, 442);
+    ax  = sub_axes(fig, 1, 1, 1, [0.95 0.3 0.75 0.5 0 0]); hold(ax, 'on');   % fixed margins [inch]
     yl  = [-4 8];  lo = yl(1) - 5;  hi = yl(2) + 5;
     set(ax, 'XLim', [0 90], 'YLim', yl, 'XTick', 0:10:90, 'YTick', -4:2:8);
     plot(ax, [0 90], [0 0], '-', 'Color', st.ink2, 'LineWidth', 0.8);
@@ -365,12 +366,12 @@ function plot_q5(cfg, Q4, Q5)
     % ---- backup: resolution sweep, both designs ------------------------------
     sw  = Q5.sweep;
     xlb = [sw.bits(1) - 0.3, sw.bits(end) + 0.3];
-    fig = new_figure(cfg, 'Q5c - resolution sweep', 900, 440);
-    ax  = sub_axes(fig, 1, 2, 1); hold(ax, 'on');
+    fig = new_figure(cfg, 'Q5c - resolution sweep', 1129, 374);
+    ax  = sub_axes(fig, 1, 2, 1, mg); hold(ax, 'on');
     hk = plot(ax, sw.bits, sw.knLossMax, '-o', 'Color', st.B, 'LineWidth', st.lw, ...
-              'MarkerFaceColor', st.B, 'MarkerEdgeColor', 'w', 'MarkerSize', 8);
+              'MarkerFaceColor', st.B, 'MarkerEdgeColor', 'w', 'MarkerSize', 10);
     hm = plot(ax, sw.bits, sw.lossMax, '--o', 'Color', st.B, 'LineWidth', st.lwRef + 0.4, ...
-              'MarkerFaceColor', 'w', 'MarkerEdgeColor', st.B, 'MarkerSize', 7);
+              'MarkerFaceColor', 'w', 'MarkerEdgeColor', st.B, 'MarkerSize', 9);
     ytop = max(2, 2*ceil(max([sw.lossMax, sw.knLossMax]) / 2) + 2);
     set(ax, 'XLim', xlb, 'XTick', sw.bits, 'YLim', [0 ytop]);
     style_axes(ax, cfg, 'phase-shifter bits', 'worst B loss (dB)', 'B at port 6 (where ideal \geq 0 dBi)');
@@ -380,9 +381,9 @@ function plot_q5(cfg, Q4, Q5)
     loc = 'northwest';  if right < left, loc = 'northeast'; end
     legend(ax, [hk hm], {'null on A kept', 'maximise B'}, 'Location', loc, 'Box', 'off');
 
-    ax  = sub_axes(fig, 1, 2, 2); hold(ax, 'on');
+    ax  = sub_axes(fig, 1, 2, 2, mg); hold(ax, 'on');
     plot(ax, sw.bits, sw.A6_max, '--o', 'Color', st.A, 'LineWidth', st.lwRef + 0.4, ...
-         'MarkerFaceColor', 'w', 'MarkerEdgeColor', st.A, 'MarkerSize', 7);
+         'MarkerFaceColor', 'w', 'MarkerEdgeColor', st.A, 'MarkerSize', 9);
     yl = [10*floor(min(sw.A6_max)/10) - 5, max(5, 5*ceil(max(sw.A6_max)/5) + 5)];
     set(ax, 'XLim', xlb, 'XTick', sw.bits, 'YLim', yl);
     text(ax, sw.bits(1) + 0.2, sw.A6_max(1), 'maximise B', 'HorizontalAlignment', 'left', ...

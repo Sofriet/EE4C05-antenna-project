@@ -30,6 +30,7 @@ res.Q2 = q2_gain_port5(cfg, res.Q1);
 res.Q3 = q3_B_network(cfg, res.Q1);
 res.Q4 = q4_gain_port6(cfg, res.Q1, res.Q3);
 res.Q5 = q5_two_bit(cfg, res.Q1, res.Q3, res.Q4);
+results_overview(cfg, res.Q2, res.Q4, res.Q5);   % Q2 + Q4 + Q5 in one figure (slides)
 
 write_summary(cfg, res);
 save(fullfile(cfg.outDir, 'results.mat'), '-v7', 'cfg', 'res');

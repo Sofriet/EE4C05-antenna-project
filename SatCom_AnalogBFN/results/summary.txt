@@ -1,5 +1,5 @@
 SatCom receiver - analog beamforming network (Student #2)
-Run of 2026-10-24 11:41
+Run of 2026-10-24 19:49
 
 thetaA = 8 deg  (student number ends in 98)
 N = 4, d = 0.50 lambda0, thetaB = 0..90 deg, isotropic elements, lossless BFN

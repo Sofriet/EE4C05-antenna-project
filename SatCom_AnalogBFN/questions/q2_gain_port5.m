@@ -51,8 +51,8 @@ function Q2 = q2_gain_port5(cfg, Q1)
 
     % ---- figure ---------------------------------------------------------------
     st  = cfg.style;
-    fig = new_figure(cfg, 'Q2 - gain at port 5');
-    ax  = axes('Parent', fig); hold(ax, 'on');
+    fig = new_figure(cfg, 'Q2 - gain at port 5', 787, 442);
+    ax  = sub_axes(fig, 1, 1, 1, [0.95 0.3 0.75 0.5 0 0]); hold(ax, 'on');   % fixed margins [inch]
     yl  = [-40 10];
     set(ax, 'XLim', [0 90], 'YLim', yl, 'XTick', 0:10:90, 'YTick', -40:10:10);
     hA = plot(ax, thB, Q2.G_A5, 'Color', st.A, 'LineWidth', st.lw);

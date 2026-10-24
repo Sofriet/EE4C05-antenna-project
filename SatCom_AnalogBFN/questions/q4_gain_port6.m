@@ -58,8 +58,8 @@ function Q4 = q4_gain_port6(cfg, Q1, Q3)
 
     % ---- main figure -----------------------------------------------------------
     st  = cfg.style;
-    fig = new_figure(cfg, 'Q4 - gain at port 6');
-    ax  = axes('Parent', fig); hold(ax, 'on');
+    fig = new_figure(cfg, 'Q4 - gain at port 6', 826, 461);
+    ax  = sub_axes(fig, 1, 1, 1, [0.95 0.3 0.75 0.5 0 0]); hold(ax, 'on');   % fixed margins [inch]
     yl  = [-40 10];
     set(ax, 'XLim', [0 90], 'YLim', yl, 'XTick', 0:10:90, 'YTick', -40:10:10);
     hN = plot(ax, [0 90], Q4.bound*[1 1], '--', 'Color', st.ref, 'LineWidth', st.lwRef);
@@ -80,7 +80,7 @@ function Q4 = q4_gain_port6(cfg, Q1, Q3)
     % ---- backup figure: port-6 beam patterns for a few B designs -------------
     Vp  = incident_wave(cfg.thetaPattern, cfg.N, cfg.d_lambda);
     op5 = bfn_forward(Vp, Q1.A.settings);
-    fig = new_figure(cfg, 'Q4b - port 6 beam patterns', 1150, 500);
+    fig = new_figure(cfg, 'Q4b - port 6 beam patterns', 1129, 403);
     ax  = axes('Parent', fig); hold(ax, 'on');
     yl  = [-30 10];
     set(ax, 'XLim', [-90 90], 'YLim', yl, 'XTick', -90:30:90, 'YTick', -30:10:10);
@@ -94,7 +94,7 @@ function Q4 = q4_gain_port6(cfg, Q1, Q3)
         col = st.Bramp(min(k, size(st.Bramp, 1)), :);
         h(end+1) = plot(ax, cfg.thetaPattern, max(gain_dB(op.port6), yl(1) - 10), ...
                         'Color', col, 'LineWidth', st.lw); %#ok<AGROW>
-        plot(ax, thB(j), Q4.G_B6(j), 'o', 'MarkerSize', 8, 'MarkerFaceColor', col, ...
+        plot(ax, thB(j), Q4.G_B6(j), 'o', 'MarkerSize', 10, 'MarkerFaceColor', col, ...
              'MarkerEdgeColor', 'w', 'LineWidth', 1.5);
         lab{end+1} = sprintf('Port 6, designed for \\theta_B = %g^{\\circ}', thB(j)); %#ok<AGROW>
     end
