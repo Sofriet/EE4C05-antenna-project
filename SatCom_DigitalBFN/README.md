@@ -51,7 +51,7 @@ Run the file as a whole because `array_setup.m` resolves `figures/` through `mfi
 | Q4 | Gain of B at port 6 | `q4_q5_port6_gain` |
 | Q5 | Uniform amplitude (`1/sqrt(N)`) with the phases of `w_B`; compare with Q4 | `q4_q5_port6_gain`, `q5_delta_gain` |
 | Q6 | Dipole elements, pattern multiplication (element gain added in dB), impedance at f0 | `q6_*` |
-| Q7 | Embedded element patterns including mutual coupling, other elements terminated in 50 ohm; `g(θ)` replaces `a(θ)` | `q7_*` |
+| Q7 | Embedded element patterns including mutual coupling, other elements terminated in 75 ohm; `g(θ)` replaces `a(θ)` | `q7_*` |
 
 ### Q6 and Q7 notes
 
