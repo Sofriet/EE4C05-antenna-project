@@ -54,7 +54,7 @@ deltaG6B_dip = G6B_dip_dB - dB(G6B);
 %% Q7: embedded element patterns (mutual coupling)
 % dipole array designed in the Antenna Array Designer app
 arr = load('dipole_antenna_array.mat').Design;
-Zt  = 50;                                        % termination of the other elements (receiver input)
+Zt  = 75;                                        % termination of the other elements (receiver input)
 iA  = find(abs(thetaB - thetaA) < 1e-9);
 
 % Create thetaB for -90 to +90 deg
