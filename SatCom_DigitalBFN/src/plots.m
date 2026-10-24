@@ -23,7 +23,7 @@ fprintf('theta_B without a solution: %s deg\n', mat2str(thetaB(~valid)));
 fprintf('max G6,A (leakage, should be 0): %.1f (dimensionless ratio)\n', max(G6A(valid)));
 
 styles = {'-', '-', '--', '--'};          % |w_1| = |w_4| and |w_2| = |w_3|: dashed keeps both visible
-f = figure('Position', [100 100 700 600]);
+f = figure('Position', [100 100 700 400]);
 tiledlayout(2, 1, 'TileSpacing', 'compact');
 ax1 = nexttile; hold on;
 for i = 1:N
@@ -31,7 +31,7 @@ for i = 1:N
 end
 yline(1/sqrt(N), ':k', '1/\surdN', 'LineWidth', 1.2);
 xline(thetaA, '--k', 'LineWidth', 1.2);
-ylim([0 1]); ylabel('|w_{B,n}|'); styleAx(ax1);
+ylim([0.2 0.7]); ylabel('|w_{B,n}|'); styleAx(ax1);
 legend('n = 1', 'n = 2', 'n = 3', 'n = 4', 'Location', 'northeast', 'NumColumns', 4);
 title('Weights w_B(\theta_B)');
 ax2 = nexttile; hold on;
@@ -149,7 +149,7 @@ band = patch([0 90 90 0], [yl(1) yl(1) yl(2) yl(2)], [0.5 0.5 0.5], ...
     'FaceAlpha', 0.12, 'EdgeColor', 'none', 'DisplayName', 'satellite range');
 uistack(band, 'bottom'); ylim(yl);
 xlabel('\theta (deg)'); ylabel('Gain (dBi)'); title('Embedded element patterns in the xz-plane');
-legend('Location', 'southoutside', 'NumColumns', 4);
+legend('Location', 'south', 'NumColumns', 2);
 savePng(q7f1, 'q7_element_patterns');
 
 %% Q7: port 5
@@ -179,14 +179,47 @@ legend('B, coupling: |w_B^H g(\theta_B)|^2', 'B, no coupling: G_e|w_B^H a(\theta
     sprintf('\\theta_A = %g^\\circ', thetaA), 'Location', 'southeast');
 savePng(q7f3, 'q7_port6_gain');
 
+%% Q6 + Q7: port 5 (isotropic, dipoles without coupling, dipoles with coupling)
+q67f1 = figure('Position', [100 100 700 400]); hold on;
+plot(thetaB, dB(G5A) * ones(1, M), '-',  'SeriesIndex', 1, 'LineWidth', 2);
+plot(thetaB, G5A_dip_dB,           '--', 'SeriesIndex', 1, 'LineWidth', 2);
+plot(thetaB, dB(G5A_emb),          ':',  'SeriesIndex', 1, 'LineWidth', 2.5);
+plot(thetaB, dB(G5B),              '-',  'SeriesIndex', 2, 'LineWidth', 2);
+plot(thetaB, G5B_dip_dB,           '--', 'SeriesIndex', 2, 'LineWidth', 2);
+plot(thetaB, dB(G5B_emb),          ':',  'SeriesIndex', 2, 'LineWidth', 2.5);
+xline(thetaA, '--k', 'LineWidth', 1.2);
+ylim([-40 12]); styleAx(gca);
+xlabel('\theta_B (deg)'); ylabel('G_5 (dB)'); title('Gain at port 5');
+legend('A, iso: |w_A^H a(\theta_A)|^2', 'A, no coupling: G_e|w_A^H a(\theta_A)|^2', ...
+    'A, coupling: |w_A^H g(\theta_A)|^2', ...
+    'B, iso: |w_A^H a(\theta_B)|^2', 'B, no coupling: G_e|w_A^H a(\theta_B)|^2', ...
+    'B, coupling: |w_A^H g(\theta_B)|^2', ...
+    sprintf('\\theta_A = %g^\\circ', thetaA), 'Location', 'southeast');
+savePng(q67f1, 'q6_q7_port5_gain');
+
+%% Q6 + Q7: port 6 (isotropic, dipoles without coupling, dipoles with coupling)
+q67f2 = figure('Position', [100 100 700 400]); hold on;
+plot(thetaB, dB(G6B),      '-',  'SeriesIndex', 2, 'LineWidth', 2);
+plot(thetaB, G6B_dip_dB,   '--', 'SeriesIndex', 2, 'LineWidth', 2);
+plot(thetaB, dB(G6B_emb),  ':',  'SeriesIndex', 2, 'LineWidth', 2.5);
+plot(thetaB, dB(G6A_emb),  '-',  'SeriesIndex', 1, 'LineWidth', 2);
+xline(thetaA, '--k', 'LineWidth', 1.2);
+ylim([-60 12]); styleAx(gca);
+xlabel('\theta_B (deg)'); ylabel('Gain at port 6 (dB)'); title('Gain at port 6');
+legend('B, iso: |w_B^H a(\theta_B)|^2', 'B, no coupling: G_e|w_B^H a(\theta_B)|^2', ...
+    'B, coupling: |w_B^H g(\theta_B)|^2', ...
+    'A leakage, coupling: |w_B^H g(\theta_A)|^2', ...
+    sprintf('\\theta_A = %g^\\circ', thetaA), 'Location', 'southeast');
+savePng(q67f2, 'q6_q7_port6_gain');
+
 %% Q7: change in gain with respect to isotropic elements
-q7f4 = figure('Position', [100 100 700 400]); hold on;
+q7f4 = figure('Position', [100 100 700 300]); hold on;
 plot(thetaB, deltaG5A_emb, '-',  'SeriesIndex', 1, 'LineWidth', 3);
-plot(thetaB, deltaG5B_emb, '--', 'SeriesIndex', 2, 'LineWidth', 2);
-plot(thetaB, deltaG6B_emb, ':',  'SeriesIndex', 4, 'LineWidth', 2.5);
+plot(thetaB, deltaG5B_emb, '-', 'SeriesIndex', 2, 'LineWidth', 2);
+plot(thetaB, deltaG6B_emb, '-',  'SeriesIndex', 4, 'LineWidth', 2.5);
 plot(thetaB, GeB_dB,       '-.k', 'LineWidth', 1.2);
 xline(thetaA, '--k', 'LineWidth', 1.2);
-ylim([-2 6]); styleAx(gca);
+ylim([-0.5 6]); styleAx(gca);
 xlabel('\theta_B (deg)'); ylabel('\DeltaG (dB)');
 title('Change in gain: coupling - iso');
 legend('A at port 5', 'B at port 5', 'B at port 6', 'no coupling: G_e', ...

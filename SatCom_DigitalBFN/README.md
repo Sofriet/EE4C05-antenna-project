@@ -71,3 +71,4 @@ Run the file as a whole because `array_setup.m` resolves `figures/` through `mfi
 | `q6_port5_gain.png`, `q6_port6_gain.png`, `q6_delta_gain.png` | Dipole elements without coupling vs isotropic |
 | `q7_element_patterns.png` | Embedded element patterns vs isolated dipole |
 | `q7_port5_gain.png`, `q7_port6_gain.png`, `q7_delta_gain.png` | Gains with coupling vs without, and change w.r.t. isotropic |
+| `q6_q7_port5_gain.png`, `q6_q7_port6_gain.png` | Q6 + Q7 gains at ports 5 and 6: isotropic, dipoles without coupling, dipoles with coupling |
